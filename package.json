@@ -1,7 +1,9 @@
 {
+  "homepage": "https://roodnori.github.io/KASPELTestTask",
   "scripts": {
     "dev": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
@@ -13,6 +15,7 @@
     "dayjs": "^1.11.13",
     "eslint": "^9.30.0",
     "eslint-plugin-react": "^7.37.5",
+    "gh-pages": "^6.3.0",
     "html-webpack-plugin": "^5.6.3",
     "path": "^0.12.7",
     "react": "^19.1.0",

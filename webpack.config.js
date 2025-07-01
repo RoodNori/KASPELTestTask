@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './src/components/App/index.tsx',
   output: {
-    publicPath: '/',
+    publicPath: '',
   },
   resolve: {
     extensions: ['.svg', '.jpg', '.ts', '.tsx', '.js'],

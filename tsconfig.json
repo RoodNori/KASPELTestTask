@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module":"esnext",
+    "target": "es6",
+    "jsx": "react-jsx",
+    "moduleResolution": "node"
+  },
+  "include": ["./src/**/*", "src/index.d.ts"]
+}

@@ -44,24 +44,48 @@ function CreateModal({ showModal, addRecord }: IProps) {
                 onFieldsChange={setOkButtonActive}
             >
                 <Form.Item<DataType> label="Имя" name="name"
-                    rules={[{ required: true, message: 'Please input!' }]}
+                    rules={[{ required: true, message: 'Заполните поле!' }]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item<DataType> label="Возраст" name="age"
-                    rules={[{ required: true, message: 'Please input!' }]}
+                    rules={[{ required: true, message: 'Заполните поле!' }]}
                 >
                     <InputNumber min={1} />
                 </Form.Item>
 
                 <Form.Item<DataType> label="День рождения" name="birthday"
-                    rules={[{ required: true, message: 'Please input!' }]}
+                    rules={[{ required: true, message: 'Заполните поле!' },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            const enteredAge = getFieldValue('age');
+
+                            if (!value || !enteredAge) {
+                                return Promise.resolve();
+                            }
+
+                            const today = new Date();
+                            const birthDate = value.toDate();
+
+                            let yDiff = today.getFullYear() - birthDate.getFullYear();
+                            const mDiff = today.getMonth() - birthDate.getMonth();
+
+                            if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) {
+                                yDiff--;
+                            }
+
+                            return yDiff === enteredAge
+                                ? Promise.resolve()
+                                : Promise.reject(new Error('Дата рождения не соответствует возрасту'));
+                        },
+                    }),
+                    ]}
                 >
                     <DatePicker />
                 </Form.Item>
             </Form>
-        </Modal>
+        </Modal >
     );
 }
 

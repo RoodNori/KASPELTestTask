@@ -11,7 +11,7 @@ import calculateSimilarity from '../../api/App'
 function App() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>('');
   const [recordForChange, setRecordForChange] = useState<DataType>(null);
   const [dataOfTable, setDataOfTable] = useState<Array<DataType>>([]);
   const [searchRecords, setSearchRecords] = useState<Array<DataType>>([]);
@@ -24,11 +24,8 @@ function App() {
     setRecordForChange(null);
   };
   const setSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value.trim());
     searchData(event.target.value.trim());
-
-    if (event.target.value.trim() === '')
-      setIsSearchActive(false);
-    else setIsSearchActive(true);
   };
 
   const editRecord = (value: DataType) => {
@@ -42,16 +39,19 @@ function App() {
     };
 
     setDataOfTable([...dataOfTable, newRecord]);
+    searchData(search);
   };
   const editRecordOfData = (record: DataType) => {
     const filteredData = dataOfTable.filter(item => item.key !== record.key);
 
     setDataOfTable([...filteredData, record]);
+    searchData(search);
   };
   const deleteRecordOfData = (key: number) => {
     const filteredData = dataOfTable.filter(item => item.key !== key);
 
     setDataOfTable(filteredData);
+    searchData(search);
   };
   const searchData = (value: string) => {
     const filteredData = dataOfTable.filter(item =>
@@ -72,7 +72,7 @@ function App() {
       <Flex gap="middle" vertical>
         <Input.Search placeholder="введите имя" onSearch={searchData} onChange={setSearchInput} />
         <Button type="primary" onClick={() => showCreateModal(true)}>Добавить запись</Button>
-        <Table data={isSearchActive ? searchRecords : dataOfTable} editRecord={editRecord} deleteRecord={deleteRecordOfData} />
+        <Table data={search.length !== 0 ? searchRecords : dataOfTable} editRecord={editRecord} deleteRecord={deleteRecordOfData} />
       </Flex>
     </ConfigProvider>
   );
